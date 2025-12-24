@@ -152,31 +152,32 @@ public class TrayIconService : IDisposable
 
     /// <summary>
     /// 根據距離取得閃爍間隔 (毫秒)
+    /// 距離越遠閃爍越快，提示使用者游標位置較遠
     /// </summary>
     /// <param name="distance">與游標的距離</param>
     /// <returns>閃爍間隔，0 表示不閃爍</returns>
     private int GetBlinkInterval(double distance)
     {
         if (distance < DISTANCE_STEP)           // 0 - 400px
-            return 150;  // 快閃
+            return 0;    // 不閃爍 (已找到)
         else if (distance < DISTANCE_STEP * 2)  // 400 - 800px
-            return 200;  // 快閃
-        else if (distance < DISTANCE_STEP * 3)  // 800 - 1200px
-            return 200;  // 快閃
-        else if (distance < DISTANCE_STEP * 4)  // 1200 - 1600px
-            return 300;  // 快閃
-        else if (distance < DISTANCE_STEP * 5)  // 1600 - 2000px
-            return 300;  // 中閃
-        else if (distance < DISTANCE_STEP * 6)  // 2000 - 2400px
-            return 400;  // 中閃
-        else if (distance < DISTANCE_STEP * 7)  // 2400 - 2800px
-            return 500;  // 慢閃
-        else if (distance < DISTANCE_STEP * 8)  // 2800 - 3200px
-            return 700;  // 慢閃
-        else if (distance < DISTANCE_STEP * 9)  // 3200 - 3600px
             return 1000; // 極慢
+        else if (distance < DISTANCE_STEP * 3)  // 800 - 1200px
+            return 700;  // 慢閃
+        else if (distance < DISTANCE_STEP * 4)  // 1200 - 1600px
+            return 500;  // 慢閃
+        else if (distance < DISTANCE_STEP * 5)  // 1600 - 2000px
+            return 400;  // 中閃
+        else if (distance < DISTANCE_STEP * 6)  // 2000 - 2400px
+            return 300;  // 中閃
+        else if (distance < DISTANCE_STEP * 7)  // 2400 - 2800px
+            return 300;  // 快閃
+        else if (distance < DISTANCE_STEP * 8)  // 2800 - 3200px
+            return 200;  // 快閃
+        else if (distance < DISTANCE_STEP * 9)  // 3200 - 3600px
+            return 200;  // 快閃
         else                                     // >= 3600px
-            return 0;    // 不閃爍
+            return 150;  // 快閃 (最遠)
     }
 
     /// <summary>
@@ -294,32 +295,32 @@ public class TrayIconService : IDisposable
 
     /// <summary>
     /// 根據距離取得樣式 (顏色和粗細)
-    /// 使用 10 級固定顏色，從紅色 (最近) 到綠色 (最遠)
+    /// 使用 10 級固定顏色，從綠色 (最近) 到紅色 (最遠)
     /// </summary>
     private (Color color, float thickness) GetDistanceStyle(double distance)
     {
         Color color;
 
         if (distance < DISTANCE_STEP)           // 0 - 400px
-            color = Color.FromArgb(0xFF, 0x00, 0x00);  // 紅色 #FF0000
-        else if (distance < DISTANCE_STEP * 2)  // 400 - 800px
-            color = Color.FromArgb(0xFF, 0x2D, 0x00);  // 紅橘色 #FF2D00
-        else if (distance < DISTANCE_STEP * 3)  // 800 - 1200px
-            color = Color.FromArgb(0xFF, 0x5A, 0x00);  // 橘紅色 #FF5A00
-        else if (distance < DISTANCE_STEP * 4)  // 1200 - 1600px
-            color = Color.FromArgb(0xFF, 0x87, 0x00);  // 橘色 #FF8700
-        else if (distance < DISTANCE_STEP * 5)  // 1600 - 2000px
-            color = Color.FromArgb(0xFF, 0xB4, 0x00);  // 橘黃色 #FFB400
-        else if (distance < DISTANCE_STEP * 6)  // 2000 - 2400px
-            color = Color.FromArgb(0xFF, 0xE1, 0x00);  // 黃色 #FFE100
-        else if (distance < DISTANCE_STEP * 7)  // 2400 - 2800px
-            color = Color.FromArgb(0xD4, 0xF0, 0x00);  // 黃綠色 #D4F000
-        else if (distance < DISTANCE_STEP * 8)  // 2800 - 3200px
-            color = Color.FromArgb(0xA0, 0xFF, 0x00);  // 淺綠色 #A0FF00
-        else if (distance < DISTANCE_STEP * 9)  // 3200 - 3600px
-            color = Color.FromArgb(0x6C, 0xFF, 0x00);  // 綠色 #6CFF00
-        else                                     // >= 3600px
             color = Color.FromArgb(0x48, 0xFF, 0x00);  // 亮綠色 #48FF00
+        else if (distance < DISTANCE_STEP * 2)  // 400 - 800px
+            color = Color.FromArgb(0x6C, 0xFF, 0x00);  // 綠色 #6CFF00
+        else if (distance < DISTANCE_STEP * 3)  // 800 - 1200px
+            color = Color.FromArgb(0xA0, 0xFF, 0x00);  // 淺綠色 #A0FF00
+        else if (distance < DISTANCE_STEP * 4)  // 1200 - 1600px
+            color = Color.FromArgb(0xD4, 0xF0, 0x00);  // 黃綠色 #D4F000
+        else if (distance < DISTANCE_STEP * 5)  // 1600 - 2000px
+            color = Color.FromArgb(0xFF, 0xE1, 0x00);  // 黃色 #FFE100
+        else if (distance < DISTANCE_STEP * 6)  // 2000 - 2400px
+            color = Color.FromArgb(0xFF, 0xB4, 0x00);  // 橘黃色 #FFB400
+        else if (distance < DISTANCE_STEP * 7)  // 2400 - 2800px
+            color = Color.FromArgb(0xFF, 0x87, 0x00);  // 橘色 #FF8700
+        else if (distance < DISTANCE_STEP * 8)  // 2800 - 3200px
+            color = Color.FromArgb(0xFF, 0x5A, 0x00);  // 橘紅色 #FF5A00
+        else if (distance < DISTANCE_STEP * 9)  // 3200 - 3600px
+            color = Color.FromArgb(0xFF, 0x2D, 0x00);  // 紅橘色 #FF2D00
+        else                                     // >= 3600px
+            color = Color.FromArgb(0xFF, 0x00, 0x00);  // 紅色 #FF0000
 
         return (color, 3f);
     }
