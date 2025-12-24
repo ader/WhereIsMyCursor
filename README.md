@@ -1,5 +1,7 @@
 # WhereIsMyCursor
 
+[English](README.en.md) | 繁體中文
+
 Windows 系統托盤游標位置指示器 - 透過動態箭頭圖示幫助你快速找到滑鼠游標。
 
 ![托盤圖示](doc/images/tray-icon.png)
