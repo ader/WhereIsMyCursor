@@ -1,5 +1,8 @@
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 using WhereIsMyCursor.Models;
 
 namespace WhereIsMyCursor.Views;
@@ -26,8 +29,38 @@ public partial class SettingsWindow : Window
 
         _settings = settings.Clone();
 
+        // 設定視窗圖示
+        SetWindowIcon();
+
         // 初始化控制項
         LoadSettings();
+    }
+
+    /// <summary>
+    /// 設定視窗圖示
+    /// </summary>
+    private void SetWindowIcon()
+    {
+        using var bitmap = new Bitmap(16, 16);
+        using var g = Graphics.FromImage(bitmap);
+        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+        g.Clear(Color.Transparent);
+
+        // 繪製 45 度角紅色箭頭 (右上方向)
+        using var pen = new Pen(Color.Red, 2.5f)
+        {
+            StartCap = System.Drawing.Drawing2D.LineCap.Round,
+            EndCap = System.Drawing.Drawing2D.LineCap.Round
+        };
+        g.DrawLine(pen, 3, 13, 13, 3);   // 主線
+        g.DrawLine(pen, 13, 3, 7, 3);    // 箭頭上
+        g.DrawLine(pen, 13, 3, 13, 9);   // 箭頭右
+
+        var hIcon = bitmap.GetHicon();
+        Icon = Imaging.CreateBitmapSourceFromHIcon(
+            hIcon,
+            Int32Rect.Empty,
+            BitmapSizeOptions.FromEmptyOptions());
     }
 
     /// <summary>
