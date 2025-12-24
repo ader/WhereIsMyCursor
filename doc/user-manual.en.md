@@ -105,7 +105,7 @@ The blink pattern uses asymmetric opacity toggle (80% visible / 20% dim), stayin
 
 Right-click the tray icon and select "Settings..." to open the settings window.
 
-![Settings Window](images/settings.png)
+![Settings Window](images/settings-en.png)
 
 ### Enable Blinking Effect
 

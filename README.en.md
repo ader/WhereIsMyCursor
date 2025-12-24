@@ -51,7 +51,7 @@ The executable will be at `bin/Release/net8.0-windows/WhereIsMyCursor.exe`
 
 ## Settings
 
-![Settings Window](doc/images/settings.png)
+![Settings Window](doc/images/settings-en.png)
 
 | Setting | Description |
 |---------|-------------|

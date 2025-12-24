@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Name="ThisWindow"
         Title="設定 - WhereIsMyCursor"
-        Width="420" Height="420"
+        Width="500" Height="440"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         ShowInTaskbar="True">
     <Grid Margin="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -34,20 +35,20 @@
                   VerticalContentAlignment="Center"/>
 
         <!-- 開機自動啟動 -->
-        <CheckBox Grid.Row="1"
+        <CheckBox Grid.Row="2"
                   x:Name="AutoStartCheckBox"
                   Content="開機時自動啟動"
-                  Margin="0,28,0,10"
+                  Margin="0,0,0,10"
                   VerticalContentAlignment="Center"/>
 
         <!-- 更新頻率 -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock x:Name="FrequencyLabel"
                        Text="更新頻率："
                        VerticalAlignment="Center"
-                       Width="100"/>
+                       Width="120"/>
             <ComboBox x:Name="FrequencyComboBox"
-                      Width="150"
+                      Width="230"
                       VerticalContentAlignment="Center">
                 <ComboBoxItem x:Name="FrequencyLowItem" Content="低 (2 FPS，省電)" Tag="Low"/>
                 <ComboBoxItem x:Name="FrequencyMediumItem" Content="中 (10 FPS，建議)" Tag="Medium"/>
@@ -56,24 +57,24 @@
         </StackPanel>
 
         <!-- 語言設定 -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,10">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,0,0,10">
             <TextBlock x:Name="LanguageLabel"
                        Text="語言："
                        VerticalAlignment="Center"
-                       Width="100"/>
+                       Width="120"/>
             <ComboBox x:Name="LanguageComboBox"
-                      Width="150"
+                      Width="230"
                       VerticalContentAlignment="Center"/>
         </StackPanel>
 
         <!-- 位置偏移設定 -->
-        <GroupBox Grid.Row="4" x:Name="PositionGroup" Header="托盤圖示位置校正" Margin="0,5,0,10" Padding="10">
+        <GroupBox Grid.Row="5" x:Name="PositionGroup" Header="托盤圖示位置校正" Margin="0,5,0,10" Padding="10">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
                     <TextBlock x:Name="OffsetXLabel"
                                Text="X 偏移 (右→左)："
                                VerticalAlignment="Center"
-                               Width="100"/>
+                               Width="140"/>
                     <TextBox x:Name="OffsetXTextBox"
                              Width="80"
                              VerticalContentAlignment="Center"/>
@@ -86,7 +87,7 @@
                     <TextBlock x:Name="OffsetYLabel"
                                Text="Y 偏移 (上→下)："
                                VerticalAlignment="Center"
-                               Width="100"/>
+                               Width="140"/>
                     <TextBox x:Name="OffsetYTextBox"
                              Width="80"
                              VerticalContentAlignment="Center"/>
@@ -105,7 +106,7 @@
         </GroupBox>
 
         <!-- 按鈕 -->
-        <StackPanel Grid.Row="6"
+        <StackPanel Grid.Row="7"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Margin="0,15,0,0">
