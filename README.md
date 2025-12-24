@@ -9,15 +9,26 @@ Windows 系統托盤游標位置指示器 - 透過動態箭頭圖示幫助你快
 - **動態箭頭指示**：系統托盤圖示實時顯示指向游標位置的箭頭
 - **距離顏色指示**：10 級漸層顏色 (紅色=近 → 綠色=遠) 表示游標距離
 - **閃爍提示**：近距離時箭頭會閃爍，越近閃越快
+- **開機自動啟動**：可設定開機時自動執行
+- **多語系支援**：繁體中文 / English
 - **可調整更新頻率**：低 (2 FPS)、中 (10 FPS)、高 (30 FPS)
 - **位置校正**：可調整 X/Y 偏移值以精確指向托盤圖示位置
 
 ## 系統需求
 
 - Windows 10/11
-- .NET 8 Runtime
+- [.NET 8 Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 ## 安裝
+
+### 下載執行 (建議)
+
+1. 前往 [Releases](https://github.com/ader/WhereIsMyCursor/releases) 頁面
+2. 下載最新版本的 `WhereIsMyCursor-vX.X.X.zip`
+3. 解壓縮到任意位置
+4. 執行 `WhereIsMyCursor.exe`
+
+> 首次執行前請確認已安裝 [.NET 8 Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 ### 從原始碼建置
 
@@ -43,7 +54,9 @@ dotnet build -c Release
 | 設定項目 | 說明 |
 |----------|------|
 | 啟用閃爍效果 | 開啟/關閉近距離閃爍提示 |
+| 開機時自動啟動 | 開機時自動執行程式 |
 | 更新頻率 | 低 (省電) / 中 (建議) / 高 (流暢) |
+| 語言 | 繁體中文 / English |
 | X 偏移 | 調整托盤圖示水平位置校正 |
 | Y 偏移 | 調整托盤圖示垂直位置校正 |
 
@@ -69,6 +82,7 @@ dotnet build -c Release
 - 框架：.NET 8 + WPF
 - 托盤圖示：System.Drawing 動態生成 16x16 圖示
 - 游標位置：Win32 API (GetCursorPos)
+- 多語系：.resx 資源檔
 
 ## 授權
 
