@@ -32,10 +32,7 @@ public partial class App : Application
         SetupNotifyIcon();
 
         // 啟動動態托盤圖示服務
-        if (_settings.DynamicIconEnabled)
-        {
-            StartTrayIconService();
-        }
+        StartTrayIconService();
     }
 
     /// <summary>
@@ -114,15 +111,8 @@ public partial class App : Application
         _settings = newSettings;
         _settings.Save();
 
-        // 根據設定更新動態圖示服務
-        if (_settings.DynamicIconEnabled)
-        {
-            StartTrayIconService();
-        }
-        else
-        {
-            StopTrayIconService();
-        }
+        // 更新動態圖示服務設定
+        StartTrayIconService();
     }
 
     /// <summary>

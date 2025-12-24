@@ -28,11 +28,6 @@ public class AppSettings
     );
 
     /// <summary>
-    /// 是否啟用動態托盤圖示
-    /// </summary>
-    public bool DynamicIconEnabled { get; set; } = true;
-
-    /// <summary>
     /// 是否啟用閃爍效果
     /// </summary>
     public bool BlinkEnabled { get; set; } = true;
@@ -110,7 +105,6 @@ public class AppSettings
     {
         return new AppSettings
         {
-            DynamicIconEnabled = this.DynamicIconEnabled,
             BlinkEnabled = this.BlinkEnabled,
             UpdateFrequency = this.UpdateFrequency,
             TrayIconOffsetX = this.TrayIconOffsetX,
