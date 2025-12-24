@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using WhereIsMyCursor.Models;
+using WhereIsMyCursor.Resources;
 using WhereIsMyCursor.Services;
 
 namespace WhereIsMyCursor.Views;
@@ -32,6 +33,9 @@ public partial class SettingsWindow : Window
 
         // 設定視窗圖示
         SetWindowIcon();
+
+        // 套用本地化字串
+        ApplyLocalization();
 
         // 初始化控制項
         LoadSettings();
@@ -65,6 +69,54 @@ public partial class SettingsWindow : Window
     }
 
     /// <summary>
+    /// 套用本地化字串
+    /// </summary>
+    private void ApplyLocalization()
+    {
+        // 視窗標題
+        Title = Strings.SettingsTitle;
+
+        // 標題
+        HeaderText.Text = Strings.SettingsHeader;
+
+        // 核取方塊
+        EnableBlinkCheckBox.Content = Strings.EnableBlink;
+        AutoStartCheckBox.Content = Strings.AutoStart;
+
+        // 更新頻率
+        FrequencyLabel.Text = Strings.UpdateFrequency;
+        FrequencyLowItem.Content = Strings.FrequencyLow;
+        FrequencyMediumItem.Content = Strings.FrequencyMedium;
+        FrequencyHighItem.Content = Strings.FrequencyHigh;
+
+        // 語言
+        LanguageLabel.Text = Strings.Language;
+
+        // 位置校正
+        PositionGroup.Header = Strings.PositionCalibration;
+        OffsetXLabel.Text = Strings.OffsetX;
+        OffsetYLabel.Text = Strings.OffsetY;
+        OffsetXUnit.Text = Strings.PixelUnit;
+        OffsetYUnit.Text = Strings.PixelUnit;
+        PositionHintText.Text = Strings.PositionHint;
+
+        // 按鈕
+        OkButton.Content = Strings.ButtonOK;
+        CancelButton.Content = Strings.ButtonCancel;
+
+        // 語言下拉選單
+        LanguageComboBox.Items.Clear();
+        foreach (var (code, name) in LocalizationService.SupportedLanguages)
+        {
+            LanguageComboBox.Items.Add(new ComboBoxItem
+            {
+                Content = name,
+                Tag = code
+            });
+        }
+    }
+
+    /// <summary>
     /// 載入設定到控制項
     /// </summary>
     private void LoadSettings()
@@ -75,7 +127,7 @@ public partial class SettingsWindow : Window
         // 開機自動啟動 (以實際 Registry 狀態為準)
         AutoStartCheckBox.IsChecked = StartupService.IsAutoStartEnabled();
 
-        // 設定下拉選單
+        // 設定更新頻率下拉選單
         foreach (ComboBoxItem item in FrequencyComboBox.Items)
         {
             if (item.Tag?.ToString() == _settings.UpdateFrequency.ToString())
@@ -89,6 +141,22 @@ public partial class SettingsWindow : Window
         if (FrequencyComboBox.SelectedItem == null)
         {
             FrequencyComboBox.SelectedIndex = 1; // Medium
+        }
+
+        // 設定語言下拉選單
+        foreach (ComboBoxItem item in LanguageComboBox.Items)
+        {
+            if (item.Tag?.ToString() == _settings.Language)
+            {
+                LanguageComboBox.SelectedItem = item;
+                break;
+            }
+        }
+
+        // 預設選擇
+        if (LanguageComboBox.SelectedItem == null)
+        {
+            LanguageComboBox.SelectedIndex = 0; // zh-TW
         }
 
         // 設定偏移值
@@ -108,15 +176,22 @@ public partial class SettingsWindow : Window
         _settings.AutoStartEnabled = autoStart;
         StartupService.SetAutoStart(autoStart);
 
-        if (FrequencyComboBox.SelectedItem is ComboBoxItem selectedItem)
+        // 更新頻率
+        if (FrequencyComboBox.SelectedItem is ComboBoxItem selectedFrequency)
         {
-            var tag = selectedItem.Tag?.ToString();
+            var tag = selectedFrequency.Tag?.ToString();
             _settings.UpdateFrequency = tag switch
             {
                 "Low" => UpdateFrequencyLevel.Low,
                 "High" => UpdateFrequencyLevel.High,
                 _ => UpdateFrequencyLevel.Medium
             };
+        }
+
+        // 語言
+        if (LanguageComboBox.SelectedItem is ComboBoxItem selectedLanguage)
+        {
+            _settings.Language = selectedLanguage.Tag?.ToString() ?? "zh-TW";
         }
 
         // 儲存偏移值
