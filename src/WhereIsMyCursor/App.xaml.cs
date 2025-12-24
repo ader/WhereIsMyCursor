@@ -10,12 +10,11 @@ namespace WhereIsMyCursor;
 
 /// <summary>
 /// 應用程式主類別
-/// 負責生命週期管理、系統托盤與事件協調
+/// 負責生命週期管理、系統托盤與動態圖示服務
 /// </summary>
 public partial class App : Application
 {
     private NotifyIcon? _notifyIcon;
-    private MainWindow? _mainWindow;
     private TrayIconService? _trayIconService;
     private AppSettings? _settings;
 
@@ -28,10 +27,6 @@ public partial class App : Application
 
         // 載入設定
         _settings = AppSettings.Load();
-
-        // 建立隱藏的主視窗 (用於熱鍵註冊)
-        _mainWindow = new MainWindow();
-        _mainWindow.HotkeyTriggered += OnHotkeyTriggered;
 
         // 設定系統托盤
         SetupNotifyIcon();
@@ -52,14 +47,11 @@ public partial class App : Application
         {
             Icon = CreateDefaultIcon(),
             Visible = true,
-            Text = "WhereIsMyCursor - 尋找游標工具"
+            Text = "WhereIsMyCursor - 游標位置指示器"
         };
 
         // 建立右鍵選單
         _notifyIcon.ContextMenuStrip = CreateContextMenu();
-
-        // 雙擊觸發尋找游標
-        _notifyIcon.DoubleClick += (s, e) => TriggerCursorFind();
     }
 
     /// <summary>
@@ -89,14 +81,6 @@ public partial class App : Application
     {
         var menu = new ContextMenuStrip();
 
-        // 尋找游標
-        var findItem = new ToolStripMenuItem("尋找游標 (Ctrl+Alt+F)");
-        findItem.Click += (s, e) => TriggerCursorFind();
-        findItem.Font = new Font(findItem.Font, System.Drawing.FontStyle.Bold);
-        menu.Items.Add(findItem);
-
-        menu.Items.Add(new ToolStripSeparator());
-
         // 設定
         var settingsItem = new ToolStripMenuItem("設定...");
         settingsItem.Click += (s, e) => OpenSettings();
@@ -110,24 +94,6 @@ public partial class App : Application
         menu.Items.Add(exitItem);
 
         return menu;
-    }
-
-    /// <summary>
-    /// 熱鍵觸發事件處理
-    /// </summary>
-    private void OnHotkeyTriggered()
-    {
-        TriggerCursorFind();
-    }
-
-    /// <summary>
-    /// 觸發尋找游標效果
-    /// </summary>
-    public void TriggerCursorFind()
-    {
-        // 建立並顯示覆蓋視窗
-        var overlay = new OverlayWindow();
-        overlay.ShowAndAnimate();
     }
 
     /// <summary>
@@ -217,9 +183,6 @@ public partial class App : Application
     {
         // 停止服務
         StopTrayIconService();
-
-        // 關閉主視窗
-        _mainWindow?.Close();
 
         // 清理托盤圖示
         if (_notifyIcon != null)
