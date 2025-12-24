@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using WhereIsMyCursor.Models;
+using WhereIsMyCursor.Services;
 
 namespace WhereIsMyCursor.Views;
 
@@ -71,6 +72,9 @@ public partial class SettingsWindow : Window
         // 設定核取方塊
         EnableBlinkCheckBox.IsChecked = _settings.BlinkEnabled;
 
+        // 開機自動啟動 (以實際 Registry 狀態為準)
+        AutoStartCheckBox.IsChecked = StartupService.IsAutoStartEnabled();
+
         // 設定下拉選單
         foreach (ComboBoxItem item in FrequencyComboBox.Items)
         {
@@ -98,6 +102,11 @@ public partial class SettingsWindow : Window
     private void SaveSettings()
     {
         _settings.BlinkEnabled = EnableBlinkCheckBox.IsChecked ?? true;
+
+        // 開機自動啟動
+        var autoStart = AutoStartCheckBox.IsChecked ?? false;
+        _settings.AutoStartEnabled = autoStart;
+        StartupService.SetAutoStart(autoStart);
 
         if (FrequencyComboBox.SelectedItem is ComboBoxItem selectedItem)
         {
