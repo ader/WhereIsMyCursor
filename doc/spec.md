@@ -32,21 +32,23 @@
 | 抗鋸齒 | 啟用 (SmoothingMode.AntiAlias) |
 
 #### 2.1.3 距離視覺指示
-以 10 級固定顏色表示游標與托盤圖示的距離，從紅色 (最近) 到綠色 (最遠)。
-使用 if-else-if 查表方式，不使用計算公式。
+以 10 級固定顏色 + 閃爍效果表示游標與托盤圖示的距離。
+- 顏色：從紅色 (最近) 到綠色 (最遠)
+- 閃爍：近距離快閃，遠距離不閃
+- 閃爍方式：透明度切換 (100% ↔ 30%)
 
-| 級別 | 距離範圍 | 箭頭顏色 | 線條粗細 |
-|------|----------|----------|----------|
-| 0 | 0 - 400px | 紅色 (#FF0000) | 3px |
-| 1 | 400 - 800px | 紅橘色 (#FF2D00) | 3px |
-| 2 | 800 - 1200px | 橘紅色 (#FF5A00) | 3px |
-| 3 | 1200 - 1600px | 橘色 (#FF8700) | 3px |
-| 4 | 1600 - 2000px | 橘黃色 (#FFB400) | 3px |
-| 5 | 2000 - 2400px | 黃色 (#FFE100) | 3px |
-| 6 | 2400 - 2800px | 黃綠色 (#D4F000) | 3px |
-| 7 | 2800 - 3200px | 淺綠色 (#A0FF00) | 3px |
-| 8 | 3200 - 3600px | 綠色 (#6CFF00) | 3px |
-| 9 | ≥ 3600px | 亮綠色 (#48FF00) | 3px |
+| 級別 | 距離範圍 | 箭頭顏色 | 閃爍間隔 | 線條粗細 |
+|------|----------|----------|----------|----------|
+| 0 | 0 - 400px | 紅色 (#FF0000) | 150ms (快閃) | 3px |
+| 1 | 400 - 800px | 紅橘色 (#FF2D00) | 200ms (快閃) | 3px |
+| 2 | 800 - 1200px | 橘紅色 (#FF5A00) | 200ms (快閃) | 3px |
+| 3 | 1200 - 1600px | 橘色 (#FF8700) | 300ms (快閃) | 3px |
+| 4 | 1600 - 2000px | 橘黃色 (#FFB400) | 300ms (中閃) | 3px |
+| 5 | 2000 - 2400px | 黃色 (#FFE100) | 400ms (中閃) | 3px |
+| 6 | 2400 - 2800px | 黃綠色 (#D4F000) | 500ms (慢閃) | 3px |
+| 7 | 2800 - 3200px | 淺綠色 (#A0FF00) | 700ms (慢閃) | 3px |
+| 8 | 3200 - 3600px | 綠色 (#6CFF00) | 1000ms (極慢) | 3px |
+| 9 | ≥ 3600px | 亮綠色 (#48FF00) | 不閃爍 | 3px |
 
 #### 2.1.4 更新頻率設定
 | 選項 | 更新間隔 | FPS | 說明 |
@@ -78,6 +80,7 @@
 | 設定項目 | 類型 | 預設值 |
 |----------|------|--------|
 | 啟用動態托盤圖示 | 核取方塊 | 啟用 |
+| 啟用閃爍效果 | 核取方塊 | 啟用 |
 | 動態圖示更新頻率 | 下拉選單 (低/中/高) | 中 |
 | X 偏移 (右→左) | 數值輸入 | 100 |
 | Y 偏移 (上→下) | 數值輸入 | 0 |
@@ -158,9 +161,12 @@ src/WhereIsMyCursor/
   - _updateTimer: DispatcherTimer
   - _notifyIcon: NotifyIcon
   - _previousIcon: Icon
+  - _blinkElapsed: int (閃爍累計時間)
+  - _isBlinkVisible: bool (閃爍顯示狀態)
   + UpdateIntervalMs: int
   + OffsetX: int
   + OffsetY: int
+  + BlinkEnabled: bool
   + IsEnabled: bool
 方法：
   + StartTracking(): void
@@ -171,6 +177,9 @@ src/WhereIsMyCursor/
   - GenerateArrowIcon(double angle, double distance): Icon
   - GetTrayIconPosition(): Point
   - GetDistanceStyle(double distance): (Color, float)
+  - GetBlinkInterval(double distance): int
+  - UpdateBlinkState(int blinkInterval): void
+  - GetCurrentOpacity(): float
 ```
 
 ### 5.3 CursorService (Services/CursorService.cs)
@@ -185,6 +194,7 @@ src/WhereIsMyCursor/
 責任：儲存應用程式設定
 屬性：
   + DynamicIconEnabled: bool = true
+  + BlinkEnabled: bool = true
   + UpdateFrequency: UpdateFrequencyLevel = Medium
   + TrayIconOffsetX: int = 100
   + TrayIconOffsetY: int = 0

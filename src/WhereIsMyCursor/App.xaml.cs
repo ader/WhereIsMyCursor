@@ -142,6 +142,7 @@ public partial class App : Application
             };
             _trayIconService.OffsetX = _settings.TrayIconOffsetX;
             _trayIconService.OffsetY = _settings.TrayIconOffsetY;
+            _trayIconService.BlinkEnabled = _settings.BlinkEnabled;
             _trayIconService.StartTracking();
         }
         else if (_trayIconService != null)
@@ -157,6 +158,8 @@ public partial class App : Application
             // 更新偏移值
             _trayIconService.OffsetX = _settings.TrayIconOffsetX;
             _trayIconService.OffsetY = _settings.TrayIconOffsetY;
+            // 更新閃爍設定
+            _trayIconService.BlinkEnabled = _settings.BlinkEnabled;
         }
     }
 

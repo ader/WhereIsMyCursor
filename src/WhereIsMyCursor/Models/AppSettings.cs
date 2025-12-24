@@ -33,6 +33,11 @@ public class AppSettings
     public bool DynamicIconEnabled { get; set; } = true;
 
     /// <summary>
+    /// 是否啟用閃爍效果
+    /// </summary>
+    public bool BlinkEnabled { get; set; } = true;
+
+    /// <summary>
     /// 動態圖示更新頻率
     /// </summary>
     public UpdateFrequencyLevel UpdateFrequency { get; set; } = UpdateFrequencyLevel.Medium;
@@ -106,6 +111,7 @@ public class AppSettings
         return new AppSettings
         {
             DynamicIconEnabled = this.DynamicIconEnabled,
+            BlinkEnabled = this.BlinkEnabled,
             UpdateFrequency = this.UpdateFrequency,
             TrayIconOffsetX = this.TrayIconOffsetX,
             TrayIconOffsetY = this.TrayIconOffsetY

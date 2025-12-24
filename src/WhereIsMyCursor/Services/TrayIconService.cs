@@ -9,7 +9,7 @@ namespace WhereIsMyCursor.Services;
 
 /// <summary>
 /// 動態托盤圖示服務
-/// 實時顯示指向游標位置的箭頭，並以顏色表示距離
+/// 實時顯示指向游標位置的箭頭，並以顏色和閃爍表示距離
 /// </summary>
 public class TrayIconService : IDisposable
 {
@@ -19,8 +19,16 @@ public class TrayIconService : IDisposable
     private bool _isTracking;
     private bool _disposed;
 
+    // 閃爍狀態
+    private int _blinkElapsed;
+    private bool _isBlinkVisible = true;
+
     // 距離閾值設定 (每級 400px)
     private const double DISTANCE_STEP = 400;
+
+    // 閃爍透明度設定
+    private const float OPACITY_VISIBLE = 1.0f;
+    private const float OPACITY_DIM = 0.3f;
 
     /// <summary>
     /// 更新間隔 (毫秒)
@@ -35,6 +43,11 @@ public class TrayIconService : IDisposable
     /// 是否啟用
     /// </summary>
     public bool IsEnabled => _isTracking;
+
+    /// <summary>
+    /// 是否啟用閃爍效果
+    /// </summary>
+    public bool BlinkEnabled { get; set; } = true;
 
     /// <summary>
     /// X 偏移量 (從螢幕右邊緣往左的像素數)
@@ -69,6 +82,8 @@ public class TrayIconService : IDisposable
         if (_isTracking) return;
 
         _isTracking = true;
+        _blinkElapsed = 0;
+        _isBlinkVisible = true;
         _updateTimer.Start();
     }
 
@@ -115,6 +130,10 @@ public class TrayIconService : IDisposable
         double angle = Math.Atan2(dy, dx) * (180 / Math.PI);
         double distance = Math.Sqrt(dx * dx + dy * dy);
 
+        // 更新閃爍狀態
+        int blinkInterval = BlinkEnabled ? GetBlinkInterval(distance) : 0;
+        UpdateBlinkState(blinkInterval);
+
         // 生成新圖示
         var newIcon = GenerateArrowIcon(angle, distance);
 
@@ -129,6 +148,84 @@ public class TrayIconService : IDisposable
             _previousIcon.Dispose();
         }
         _previousIcon = newIcon;
+    }
+
+    /// <summary>
+    /// 根據距離取得閃爍間隔 (毫秒)
+    /// </summary>
+    /// <param name="distance">與游標的距離</param>
+    /// <returns>閃爍間隔，0 表示不閃爍</returns>
+    private int GetBlinkInterval(double distance)
+    {
+        if (distance < DISTANCE_STEP)           // 0 - 400px
+            return 150;  // 快閃
+        else if (distance < DISTANCE_STEP * 2)  // 400 - 800px
+            return 200;  // 快閃
+        else if (distance < DISTANCE_STEP * 3)  // 800 - 1200px
+            return 200;  // 快閃
+        else if (distance < DISTANCE_STEP * 4)  // 1200 - 1600px
+            return 300;  // 快閃
+        else if (distance < DISTANCE_STEP * 5)  // 1600 - 2000px
+            return 300;  // 中閃
+        else if (distance < DISTANCE_STEP * 6)  // 2000 - 2400px
+            return 400;  // 中閃
+        else if (distance < DISTANCE_STEP * 7)  // 2400 - 2800px
+            return 500;  // 慢閃
+        else if (distance < DISTANCE_STEP * 8)  // 2800 - 3200px
+            return 700;  // 慢閃
+        else if (distance < DISTANCE_STEP * 9)  // 3200 - 3600px
+            return 1000; // 極慢
+        else                                     // >= 3600px
+            return 0;    // 不閃爍
+    }
+
+    /// <summary>
+    /// 更新閃爍狀態
+    /// 使用非對稱閃爍：可見時間佔 80%，暗淡時間佔 20%
+    /// </summary>
+    /// <param name="blinkInterval">閃爍週期 (毫秒)，0 表示不閃爍</param>
+    private void UpdateBlinkState(int blinkInterval)
+    {
+        if (blinkInterval == 0)
+        {
+            _isBlinkVisible = true;
+            _blinkElapsed = 0;
+            return;
+        }
+
+        _blinkElapsed += UpdateIntervalMs;
+
+        // 可見時間佔 80%，暗淡時間佔 20%
+        int visibleDuration = (int)(blinkInterval * 0.8);
+        int dimDuration = blinkInterval - visibleDuration;
+
+        if (_isBlinkVisible)
+        {
+            // 可見狀態：等待較長時間後切換到暗淡
+            if (_blinkElapsed >= visibleDuration)
+            {
+                _isBlinkVisible = false;
+                _blinkElapsed = 0;
+            }
+        }
+        else
+        {
+            // 暗淡狀態：短暫後切換回可見
+            if (_blinkElapsed >= dimDuration)
+            {
+                _isBlinkVisible = true;
+                _blinkElapsed = 0;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 取得目前透明度
+    /// </summary>
+    /// <returns>透明度值 (0.0 ~ 1.0)</returns>
+    private float GetCurrentOpacity()
+    {
+        return _isBlinkVisible ? OPACITY_VISIBLE : OPACITY_DIM;
     }
 
     /// <summary>
@@ -246,12 +343,17 @@ public class TrayIconService : IDisposable
         // 取得樣式
         var (color, thickness) = GetDistanceStyle(distance);
 
+        // 套用閃爍透明度
+        float opacity = GetCurrentOpacity();
+        int alpha = (int)(255 * opacity);
+        Color colorWithAlpha = Color.FromArgb(alpha, color.R, color.G, color.B);
+
         // 移動原點到中心並旋轉
         g.TranslateTransform(8, 8);
         g.RotateTransform((float)angle);
 
         // 繪製箭頭 (指向右方，然後旋轉)
-        using var pen = new Pen(color, thickness)
+        using var pen = new Pen(colorWithAlpha, thickness)
         {
             StartCap = LineCap.Round,
             EndCap = LineCap.Round

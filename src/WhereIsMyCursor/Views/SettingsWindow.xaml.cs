@@ -37,6 +37,7 @@ public partial class SettingsWindow : Window
     {
         // 設定核取方塊
         EnableDynamicIconCheckBox.IsChecked = _settings.DynamicIconEnabled;
+        EnableBlinkCheckBox.IsChecked = _settings.BlinkEnabled;
 
         // 設定下拉選單
         foreach (ComboBoxItem item in FrequencyComboBox.Items)
@@ -65,6 +66,7 @@ public partial class SettingsWindow : Window
     private void SaveSettings()
     {
         _settings.DynamicIconEnabled = EnableDynamicIconCheckBox.IsChecked ?? true;
+        _settings.BlinkEnabled = EnableBlinkCheckBox.IsChecked ?? true;
 
         if (FrequencyComboBox.SelectedItem is ComboBoxItem selectedItem)
         {
