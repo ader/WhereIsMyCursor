@@ -1,0 +1,15 @@
+<Window x:Class="WhereIsMyCursor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WhereIsMyCursor"
+        Width="0" Height="0"
+        WindowStyle="None"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        Visibility="Hidden">
+    <!--
+    此視窗為隱藏視窗，僅用於：
+    1. 作為全域熱鍵註冊的宿主 (需要 HwndSource)
+    2. 提供 WPF 應用程式的 MainWindow 參考
+    -->
+</Window>

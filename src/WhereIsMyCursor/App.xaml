@@ -1,0 +1,8 @@
+<Application x:Class="WhereIsMyCursor.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnExplicitShutdown">
+    <!-- 不設定 StartupUri，程式啟動後直接進入托盤模式 -->
+    <Application.Resources>
+    </Application.Resources>
+</Application>
