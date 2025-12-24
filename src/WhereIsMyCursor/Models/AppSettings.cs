@@ -33,6 +33,11 @@ public class AppSettings
     public bool BlinkEnabled { get; set; } = true;
 
     /// <summary>
+    /// 是否開機自動啟動
+    /// </summary>
+    public bool AutoStartEnabled { get; set; } = false;
+
+    /// <summary>
     /// 動態圖示更新頻率
     /// </summary>
     public UpdateFrequencyLevel UpdateFrequency { get; set; } = UpdateFrequencyLevel.Medium;
@@ -106,6 +111,7 @@ public class AppSettings
         return new AppSettings
         {
             BlinkEnabled = this.BlinkEnabled,
+            AutoStartEnabled = this.AutoStartEnabled,
             UpdateFrequency = this.UpdateFrequency,
             TrayIconOffsetX = this.TrayIconOffsetX,
             TrayIconOffsetY = this.TrayIconOffsetY
