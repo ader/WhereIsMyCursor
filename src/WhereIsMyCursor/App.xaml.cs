@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
 using WhereIsMyCursor.Models;
+using WhereIsMyCursor.Resources;
 using WhereIsMyCursor.Services;
 using WhereIsMyCursor.Views;
 using Application = System.Windows.Application;
@@ -28,6 +29,9 @@ public partial class App : Application
         // 載入設定
         _settings = AppSettings.Load();
 
+        // 初始化多語系
+        LocalizationService.SetLanguage(_settings.Language);
+
         // 設定系統托盤
         SetupNotifyIcon();
 
@@ -44,7 +48,7 @@ public partial class App : Application
         {
             Icon = CreateDefaultIcon(),
             Visible = true,
-            Text = "WhereIsMyCursor - 游標位置指示器"
+            Text = Strings.TrayTooltip
         };
 
         // 建立右鍵選單
@@ -79,14 +83,14 @@ public partial class App : Application
         var menu = new ContextMenuStrip();
 
         // 設定
-        var settingsItem = new ToolStripMenuItem("設定...");
+        var settingsItem = new ToolStripMenuItem(Strings.MenuSettings);
         settingsItem.Click += (s, e) => OpenSettings();
         menu.Items.Add(settingsItem);
 
         menu.Items.Add(new ToolStripSeparator());
 
         // 結束
-        var exitItem = new ToolStripMenuItem("結束");
+        var exitItem = new ToolStripMenuItem(Strings.MenuExit);
         exitItem.Click += (s, e) => ExitApplication();
         menu.Items.Add(exitItem);
 
@@ -108,11 +112,32 @@ public partial class App : Application
     /// </summary>
     private void OnSettingsChanged(AppSettings newSettings)
     {
+        var languageChanged = _settings?.Language != newSettings.Language;
+
         _settings = newSettings;
         _settings.Save();
 
+        // 更新語言設定
+        if (languageChanged)
+        {
+            LocalizationService.SetLanguage(_settings.Language);
+            UpdateLocalizedUI();
+        }
+
         // 更新動態圖示服務設定
         StartTrayIconService();
+    }
+
+    /// <summary>
+    /// 更新本地化 UI
+    /// </summary>
+    private void UpdateLocalizedUI()
+    {
+        if (_notifyIcon != null)
+        {
+            _notifyIcon.Text = Strings.TrayTooltip;
+            _notifyIcon.ContextMenuStrip = CreateContextMenu();
+        }
     }
 
     /// <summary>

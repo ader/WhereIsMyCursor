@@ -53,6 +53,11 @@ public class AppSettings
     public int TrayIconOffsetY { get; set; } = 0;
 
     /// <summary>
+    /// 語言代碼 (zh-TW, en)
+    /// </summary>
+    public string Language { get; set; } = "zh-TW";
+
+    /// <summary>
     /// 儲存設定
     /// </summary>
     public void Save()
@@ -114,7 +119,8 @@ public class AppSettings
             AutoStartEnabled = this.AutoStartEnabled,
             UpdateFrequency = this.UpdateFrequency,
             TrayIconOffsetX = this.TrayIconOffsetX,
-            TrayIconOffsetY = this.TrayIconOffsetY
+            TrayIconOffsetY = this.TrayIconOffsetY,
+            Language = this.Language
         };
     }
 }

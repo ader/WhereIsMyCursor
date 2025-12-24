@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="0" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- App -->
+  <data name="AppName" xml:space="preserve">
+    <value>WhereIsMyCursor</value>
+  </data>
+  <data name="TrayTooltip" xml:space="preserve">
+    <value>WhereIsMyCursor - 游標位置指示器</value>
+  </data>
+
+  <!-- Context Menu -->
+  <data name="MenuSettings" xml:space="preserve">
+    <value>設定...</value>
+  </data>
+  <data name="MenuExit" xml:space="preserve">
+    <value>結束</value>
+  </data>
+
+  <!-- Settings Window -->
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>設定 - WhereIsMyCursor</value>
+  </data>
+  <data name="SettingsHeader" xml:space="preserve">
+    <value>動態托盤圖示設定</value>
+  </data>
+  <data name="EnableBlink" xml:space="preserve">
+    <value>啟用閃爍效果 (近距離閃爍提示)</value>
+  </data>
+  <data name="AutoStart" xml:space="preserve">
+    <value>開機時自動啟動</value>
+  </data>
+  <data name="UpdateFrequency" xml:space="preserve">
+    <value>更新頻率：</value>
+  </data>
+  <data name="FrequencyLow" xml:space="preserve">
+    <value>低 (2 FPS，省電)</value>
+  </data>
+  <data name="FrequencyMedium" xml:space="preserve">
+    <value>中 (10 FPS，建議)</value>
+  </data>
+  <data name="FrequencyHigh" xml:space="preserve">
+    <value>高 (30 FPS，流暢)</value>
+  </data>
+  <data name="PositionCalibration" xml:space="preserve">
+    <value>托盤圖示位置校正</value>
+  </data>
+  <data name="OffsetX" xml:space="preserve">
+    <value>X 偏移 (右→左)：</value>
+  </data>
+  <data name="OffsetY" xml:space="preserve">
+    <value>Y 偏移 (上→下)：</value>
+  </data>
+  <data name="PixelUnit" xml:space="preserve">
+    <value> px</value>
+  </data>
+  <data name="PositionHint" xml:space="preserve">
+    <value>提示：若箭頭方向不準確，請調整偏移值直到箭頭正確指向托盤圖示</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>語言：</value>
+  </data>
+  <data name="ButtonOK" xml:space="preserve">
+    <value>確定</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+</root>
