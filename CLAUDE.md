@@ -55,3 +55,18 @@ Resources are in `Resources/Strings.resx` (zh-TW) and `Resources/Strings.en.resx
 ## GitHub
 
 使用 `gh` CLI 處理所有 GitHub 相關操作（issues、pull requests、releases 等）。
+
+```powershell
+# gh CLI 路徑
+& 'C:\Program Files\GitHub CLI\gh.exe' <command>
+```
+
+## Release 流程
+
+執行 release 時直接進行以下步驟，不需詢問：
+1. Commit 變更
+2. Merge 到 main
+3. 建立 tag (vX.Y.Z)
+4. Push 到 remote
+5. `dotnet publish` 並打包 zip
+6. `gh release create` 上傳到 GitHub
