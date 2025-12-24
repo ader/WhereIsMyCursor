@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2025-12-25
+
+### Fixed
+
+- 修正設定視窗 UI 佈局問題
+  - 修正 checkbox 重疊
+  - 加寬 ComboBox 以容納英文文字
+  - 加寬標籤寬度
+  - 調整視窗尺寸 (420×420 → 500×440)
+
+### Added
+
+- 英文設定視窗截圖
+
 ## [1.1.0] - 2025-12-25
 
 ### Added
@@ -35,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 支援多螢幕環境
 - 支援工作列在任意位置 (底部/頂部/左側/右側)
 
+[1.1.1]: https://github.com/ader/WhereIsMyCursor/releases/tag/v1.1.1
 [1.1.0]: https://github.com/ader/WhereIsMyCursor/releases/tag/v1.1.0
 [1.0.1]: https://github.com/ader/WhereIsMyCursor/releases/tag/v1.0.1
 [1.0.0]: https://github.com/ader/WhereIsMyCursor/releases/tag/v1.0.0
