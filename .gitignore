@@ -13,3 +13,5 @@ packages/
 # OS files
 Thumbs.db
 .DS_Store
+publish/
+*.zip
