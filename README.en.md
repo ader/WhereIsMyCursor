@@ -9,8 +9,8 @@ Windows system tray cursor position indicator - helps you quickly locate your mo
 ## Features
 
 - **Dynamic Arrow Indicator**: System tray icon shows a real-time arrow pointing to cursor position
-- **Distance Color Coding**: 10-level gradient colors (red=near → green=far) indicate cursor distance
-- **Blink Alert**: Arrow blinks when cursor is nearby, faster blinking = closer distance
+- **Distance Color Coding**: 10-level gradient colors (green=near → red=far) indicate cursor distance
+- **Blink Alert**: Arrow blinks when cursor is far away, faster blinking = farther distance
 - **Auto-Start**: Option to launch automatically on Windows startup
 - **Multi-Language**: Traditional Chinese / English
 - **Adjustable Update Rate**: Low (2 FPS), Medium (10 FPS), High (30 FPS)
@@ -66,16 +66,16 @@ The executable will be at `bin/Release/net8.0-windows/WhereIsMyCursor.exe`
 
 | Level | Distance Range | Arrow Color | Blink Interval |
 |-------|---------------|-------------|----------------|
-| 0 | 0 - 400px | Red (#FF0000) | 150ms (fast) |
-| 1 | 400 - 800px | Red-Orange (#FF2D00) | 200ms (fast) |
-| 2 | 800 - 1200px | Orange-Red (#FF5A00) | 200ms (fast) |
-| 3 | 1200 - 1600px | Orange (#FF8700) | 300ms (fast) |
-| 4 | 1600 - 2000px | Orange-Yellow (#FFB400) | 300ms (medium) |
-| 5 | 2000 - 2400px | Yellow (#FFE100) | 400ms (medium) |
-| 6 | 2400 - 2800px | Yellow-Green (#D4F000) | 500ms (slow) |
-| 7 | 2800 - 3200px | Light Green (#A0FF00) | 700ms (slow) |
-| 8 | 3200 - 3600px | Green (#6CFF00) | 1000ms (very slow) |
-| 9 | ≥ 3600px | Bright Green (#48FF00) | No blink |
+| 0 | 0 - 400px | Bright Green (#48FF00) | No blink |
+| 1 | 400 - 800px | Green (#6CFF00) | 1000ms (very slow) |
+| 2 | 800 - 1200px | Light Green (#A0FF00) | 700ms (slow) |
+| 3 | 1200 - 1600px | Yellow-Green (#D4F000) | 500ms (slow) |
+| 4 | 1600 - 2000px | Yellow (#FFE100) | 400ms (medium) |
+| 5 | 2000 - 2400px | Orange-Yellow (#FFB400) | 300ms (medium) |
+| 6 | 2400 - 2800px | Orange (#FF8700) | 300ms (fast) |
+| 7 | 2800 - 3200px | Orange-Red (#FF5A00) | 200ms (fast) |
+| 8 | 3200 - 3600px | Red-Orange (#FF2D00) | 200ms (fast) |
+| 9 | ≥ 3600px | Red (#FF0000) | 150ms (fast) |
 
 Blink pattern: Asymmetric opacity toggle (80% visible / 20% dim)
 
